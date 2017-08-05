@@ -25,17 +25,43 @@ public class Controller : MonoBehaviour {
 			lettersInSource [i].gotoSource (i);
 		}
 	}
+
 	void Backspace (){
 		if (lettersInTarget.Count == 0)
 			return;
 		Letter lastLetter = lettersInTarget.Last.Value;
 		lettersInTarget.RemoveLast ();
+		MoveToSource (lastLetter);
+	}
+
+	/** MoveToSource moves a letter to the first available slot in lettersInSource, and performs the
+	 * necessary updates in the graphics.
+	 * 
+	 * Warning: MoveToSource does not remove the letter from lettersInTarget, you need to remove it from LettersInTarget
+	 * yourself when calling MoveToSource. */
+	void MoveToSource (Letter letter){
 		for (int i = 0; i < numLetters; i++)
 			if (lettersInSource [i] == null) {
-				lettersInSource [i] = lastLetter;
-				lastLetter.gotoSource (i);
+				lettersInSource [i] = letter;
+				letter.gotoSource (i);
 				break;
-			}
+			}	
+	}
+
+	void Enter (){
+		if (lettersInTarget.Count == 0)
+			return;
+		
+		string word="";
+		foreach (Letter letter in lettersInTarget) {
+			word = word + letter.letter;
+		}
+		print ("The word is " + word);
+
+		foreach (Letter letter in lettersInTarget) {
+			MoveToSource (letter);
+		}
+		lettersInTarget.Clear ();
 	}
 	void LetterKeyPress (char key){
 		for (int i = 0; i < numLetters; i++) {
@@ -57,6 +83,8 @@ public class Controller : MonoBehaviour {
 				LetterKeyPress (System.Char.ToUpper (key));
 			else if (key == 8)
 				Backspace ();
+			else if (key == 13)
+				Enter ();
 			else
 				print ("Unknown key: " + key+" "+System.Convert.ToInt32(key));
 		}
