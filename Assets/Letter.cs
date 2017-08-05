@@ -8,11 +8,12 @@ public class Letter : MonoBehaviour {
 	void Start () {
 		updateLetter ();
 		targetPosition = transform.localPosition;
-		targets = GameObject.Find ("Targets").transform;
-		sources = GameObject.Find ("Sources").transform;
+		controller = GameObject.Find ("Controller").GetComponent<Controller>();
+//		targets = GameObject.Find ("Targets").transform;
+//		sources = GameObject.Find ("Sources").transform;
 	}
-	private Transform targets, sources;
-
+//	private Transform targets, sources;
+	private Controller controller;
 	public float speed = 1;
 
 	// Update is called once per frame
@@ -33,12 +34,12 @@ public class Letter : MonoBehaviour {
 	}
 
 	public void gotoTarget(int i) {
-		Transform child = targets.GetChild (i);
+		Transform child = controller.targets.GetChild (i);
 		gotoPos (child.position.x, child.position.y);
 	}
 
 	public void gotoSource(int i) {
-		Transform child = sources.GetChild (i);
+		Transform child = controller.sources.GetChild (i);
 		gotoPos (child.position.x, child.position.y);
 	}
 
