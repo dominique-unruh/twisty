@@ -36,7 +36,7 @@ public class Test : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		letters = new Letter[] { a,b,c,d };
-		StartCoroutine (test2 ());
+		//StartCoroutine (test2 ());
 	}
 
 }

@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Letter : MonoBehaviour {
 
+	void Awake (){
+		targetPosition = transform.localPosition;
+		controller = GameObject.Find ("Controller").GetComponent<Controller>();
+	}
+
 	// Use this for initialization
 	void Start () {
 		updateLetter ();
-		targetPosition = transform.localPosition;
-		controller = GameObject.Find ("Controller").GetComponent<Controller>();
 //		targets = GameObject.Find ("Targets").transform;
 //		sources = GameObject.Find ("Sources").transform;
 	}
