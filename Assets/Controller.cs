@@ -25,10 +25,26 @@ public class Controller : MonoBehaviour {
 			lettersInSource [i].gotoSource (i);
 		}
 	}
+	void LetterKeyPress (char key){
+		for (int i = 0; i < numLetters; i++) {
+			Letter letter = lettersInSource [i];
+			if (letter != null && letter.letter == key) {
+				lettersInSource [i] = null;
+				lettersInTarget.Add (letter);
+				letter.gotoTarget (lettersInTarget.Count - 1);
+				break;
+			}
+		}
+	}
 
 	void Update () {
-		foreach (char letter in Input.inputString) {
-			print ("Key press: " + letter);
+		foreach (char key in Input.inputString) {
+			if (key >= 'A' && key <= 'Z')
+				LetterKeyPress (key);
+			else if (key >= 'a' && key <= 'z')
+				LetterKeyPress (System.Char.ToUpper (key));
+			else 
+				print ("Unknown key: " + key);
 		}
 	}
 }
