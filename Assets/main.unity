@@ -797,6 +797,7 @@ MonoBehaviour:
   targets: {fileID: 1229871161}
   sources: {fileID: 885586574}
   letters: {fileID: 605343208}
+  dictionaryData: {fileID: 4900000, guid: da16155df5756d442be920096a5c634d, type: 3}
 --- !u!4 &551615415
 Transform:
   m_ObjectHideFlags: 0

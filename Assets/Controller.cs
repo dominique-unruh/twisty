@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour {
 	public Transform targets, sources, letters;
-
+	private Dictionary dictionary;
 	void Start () {
 		Debug.Assert (targets.childCount == numLetters);
 		Debug.Assert (sources.childCount == numLetters);
 		Debug.Assert (letters.childCount == numLetters);
+		dictionary = new Dictionary (dictionaryData);	
+		SetWord (dictionary.GetNLetterWord(numLetters));
 		ResetLetters ();
+	}
+	void SetWord (string word){
+		Debug.Assert (word.Length == numLetters);
+		for (int i = 0; i < numLetters; i++)
+			letters.GetChild (i).gameObject.GetComponent<Letter>().letter = word[i];
 	}
 
 	public const int numLetters = 6;
@@ -74,6 +81,7 @@ public class Controller : MonoBehaviour {
 			}
 		}
 	}
+	public TextAsset dictionaryData;
 
 	void Update () {
 		foreach (char key in Input.inputString) {
@@ -90,3 +98,38 @@ public class Controller : MonoBehaviour {
 		}
 	}
 }
+
+class Dictionary{
+	/** Returns a random n-letter word */
+	public string GetNLetterWord(int n){
+		// TODO cache found for future calls with same n
+		List <string> found = new List <string> ();
+		foreach (string w in words) {
+			string word = w.Trim ();
+//			Debug.Log ("word " + word + " " + word.Length + " " + n);
+				if (word.Length == n)
+				found.Add (word);
+		}
+
+		Debug.Assert (found.Count != 0);
+		int i = Random.Range (0, found.Count);
+//		Debug.Log ("n letter word" + i + " " + found.Count);
+		string chosen = found [i];
+		Debug.Log ("chosen " + chosen);
+		return chosen;
+	}
+
+	private HashSet <string> words=new HashSet<string>();
+	private TextAsset dictionaryData;
+	public Dictionary (TextAsset data){
+		dictionaryData = data;
+		string[] rawWords=data.text.Split ('\n');
+		foreach (string word in rawWords) {
+			if (word == "")
+				continue;
+			words.Add (word.ToUpper());
+		}
+//		foreach (string word in words)
+//			Debug.Log (word);
+	}
+} 
