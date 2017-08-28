@@ -1,2 +1,3 @@
 # twisty
-A text guessing game
+
+A word game
